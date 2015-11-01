@@ -2,9 +2,18 @@
     <title>Kudos</title>
 </head>
 <body>
+    {{> searchbar }}
 </body>
 
 
-<template>
-
+<template name="searchbar">
+<form>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Search</span>
+        <input type="text" class="form-control typeahead" placeholder="Enter name" aria-describedby="basic-addon1" data-source="users" autocomplete="off" spellcheck="off" id="input-search" />
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Go!</button>
+        </span>
+    </div>
+</form>
 </template>
