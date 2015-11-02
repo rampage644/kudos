@@ -12,6 +12,7 @@ It consists of just text and (maybe) some media attachment (photo, video, record
     text: String,
     from: ObjectId,
     to: ObjectId,
+    date: timestamp,
     comments : [
         {
             author: ObjectId,
