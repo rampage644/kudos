@@ -1,24 +1,36 @@
 users = new Mongo.Collection('users');
 
-
 if (Meteor.isClient) {
-    Meteor.startup(function() {
-      Meteor.typeahead.inject();
-    });
 
     Template.searchbar.events({
         "submit": function(event) {
             event.preventDefault();
             console.log(event);
+        },
+        "autocompleteselect input": function(event, template, doc) {
+            console.log("selected ", doc);
         }
     });
 
     Template.searchbar.helpers({
-        users: function() {
-            return users.find().map(function(it) {
-                return it.fullname;
-            });
-        }
+      settings: function() {
+        return {
+          position: Session.get("position"),
+          limit: 10,
+          rules: [
+            {
+              // token: '',
+              collection: 'users',
+              field: 'fullname',
+              matchAll: false,
+              template: Template.userPill
+            }
+          ]
+        };
+      },
+      legends: function() {
+        return users.find();
+      }
     });
 }
 
