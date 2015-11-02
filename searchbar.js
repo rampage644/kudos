@@ -27,10 +27,7 @@ if (Meteor.isClient) {
             }
           ]
         };
-      },
-      legends: function() {
-        return users.find();
-      }
+      }      
     });
 }
 
