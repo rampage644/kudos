@@ -1,0 +1,30 @@
+<body>
+    {{> listkudos }}
+</body>
+
+<template name="listkudos">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        {{> Template.dynamic template="personalkudos" data=person }}
+      </div>
+    </div>
+</template>
+
+<template name="personalkudos">
+    <div class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="" alt="{{ photo }}">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{ firstName }} {{ lastName }}</h4>
+            <p> {{ title }} / {{ department }} </p>
+        </div>
+    </div>
+    {{> kudos to=_id }}
+</template>
+
+<template name="kudos">
+    <p>Showing a list of kudos sent to person id {{to}} - {{ fullName }}</p>
+</template>

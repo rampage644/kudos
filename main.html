@@ -1,0 +1,38 @@
+<head>
+</head>
+
+<body>
+
+</body>
+
+<template name="media_objs">
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Latest kudos</h1>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+    {{#each media_obj}}
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object" src="{{img_url}}" alt="Photo of Pukeko in New Zealand">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{name}}</h4>
+
+                <p>{{text}}
+                </p>
+            </div>
+        </div>
+    {{/each}}
+
+
+
+      </div>
+    </div>
+
+
+
+
+</template>

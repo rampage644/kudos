@@ -1,5 +1,3 @@
-users = new Mongo.Collection('users');
-
 if (Meteor.isClient) {
 
     Template.searchbar.events({
