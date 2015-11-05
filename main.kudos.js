@@ -20,7 +20,16 @@ if (Meteor.isClient) {
         }
     });
 
-
+    Template.comments.helpers({
+        "comment":function(){
+            return kudos.findOne({_id:this._id}).comments;
+        }
+    });
+    Template.comment.helpers({
+        "comment_author":function(){
+            return users.findOne({"_id":this.author});
+        },
+    });
 }
 
 if (Meteor.isServer) {
