@@ -1,6 +1,3 @@
-kudos = new Mongo.Collection('kudos');
-users = new Mongo.Collection('users');
-
 
 if (Meteor.isClient) {
     Template.registerHelper('formatDate', function(date) {
