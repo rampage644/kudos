@@ -38,4 +38,24 @@
     </div>
 </template>
 
+<template name="comment">
+    <a href="#" class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <a href="#">
+                <img class="image" src="{{comment_author.photo}}&s=20">
+                {{comment_author.fullName}}
+            </a>
+        </h4>
+        <p class="list-group-item-text">{{text}}</p>
+    </a>
+</template>
+
+<template name="comments">
+    <div class="list-group" ower>
+        {{#each comment}}
+            {{> Template.dynamic template="comment"}}
+        {{/each}}
+    </div>
+</template>
+
 
