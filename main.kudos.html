@@ -1,0 +1,41 @@
+<!---->
+<body>
+{{> mediaItems}}
+</body>
+
+<template name="kudosItem">
+    <div class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="{{users.user_to.photo}}&s=80" alt="{{users.user_to.fullName}}">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <a href="#"><img class="image" src="{{users.user_from.photo}}&s=20" alt="{{users.user_from.fullName}}"> {{users.user_from.fullName}}</a>
+                <p>
+                    {{formatDate date}}
+                </p>
+            </h4>
+            <p>{{text}}</p>
+            <p></p>
+        </div>
+        <div class="pull-right">
+            <a href="#">comments <span class="badge">{{comments.length}}</span></a>
+        </div>
+        {{> comments}}
+    </div>
+</template>
+
+<template name="mediaItems">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Latest kudos</h1>
+            {{#each media_obj}}
+                {{> Template.dynamic template="kudosItem"}}
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+
