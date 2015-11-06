@@ -1,7 +1,8 @@
 
 if (Meteor.isClient) {
     Template.registerHelper('formatDate', function(date) {
-        return (new Date(date).format('yyyy-MM-dd'));
+        var d = new Date(+date);
+        return d.getDate() + "-" + d.getMonth() + 1 + "-" + d.getFullYear() + ' ' + d.getHours() + ":" + d.getMinutes() + ":"+ d.getSeconds();
     });
 
     Template.mediaItems.helpers({
