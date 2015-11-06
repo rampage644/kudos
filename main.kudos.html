@@ -12,8 +12,8 @@
         </div>
         <div class="media-body">
             <h4 class="media-heading">
-                <a href="#"><img class="image" src="{{users.user_from.photo}}&s=20" alt="{{users.user_from.fullName}}"> {{users.user_from.fullName}}</a>
                 <p>
+                    <a href="#"><img class="image" src="{{users.user_from.photo}}&s=20" alt="{{users.user_from.fullName}}"> {{users.user_from.fullName}}</a>
                     {{formatDate date}}
                 </p>
             </h4>
@@ -41,10 +41,13 @@
 <template name="comment">
     <a href="#" class="list-group-item">
         <h4 class="list-group-item-heading">
-            <a href="#">
-                <img class="image" src="{{comment_author.photo}}&s=20">
-                {{comment_author.fullName}}
-            </a>
+            <p>
+                <a href="#">
+                    <img class="image" src="{{comment_author.photo}}&s=20">
+                    {{comment_author.fullName}}
+                </a>
+                {{formatDate date}}
+            </p>
         </h4>
         <p class="list-group-item-text">{{text}}</p>
     </a>
