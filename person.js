@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
     Template.listkudos.helpers({
-        person: function() {
-            return users.findOne();
+        selectedPerson: function() {
+            return Session.get('selectedPerson');
         }
     });
 

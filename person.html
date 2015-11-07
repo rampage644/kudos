@@ -3,11 +3,13 @@
 </body>
 
 <template name="listkudos">
+    {{#if selectedPerson }}
     <div class="panel panel-default">
       <div class="panel-body">
-        {{> Template.dynamic template="personalkudos" data=person }}
+        {{> Template.dynamic template="personalkudos" data=selectedPerson }}
       </div>
     </div>
+    {{/if}}
 </template>
 
 <template name="personalkudos">

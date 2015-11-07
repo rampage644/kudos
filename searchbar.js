@@ -7,6 +7,7 @@ if (Meteor.isClient) {
         },
         "autocompleteselect input": function(event, template, doc) {
             console.log("selected ", doc);
+            Session.set('selectedPerson', doc);
         }
     });
 
