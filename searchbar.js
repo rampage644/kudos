@@ -19,7 +19,7 @@ if (Meteor.isClient) {
             {
               // token: '',
               collection: 'users',
-              field: 'fullname',
+              field: 'fullName',
               matchAll: false,
               template: Template.userPill
             }
