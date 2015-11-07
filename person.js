@@ -47,7 +47,7 @@ function syncUsers() {
             'lastName': entry.object.sn,
             'fullName': entry.object.displayName,
             'title': entry.object.title,
-            'photo': entry.object.photo,
+            'photo': entry.raw.photo.toString('base64'),
             'department': entry.object.Division
         });
     }));
