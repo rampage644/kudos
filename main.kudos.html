@@ -1,0 +1,73 @@
+<!---->
+<body>
+{{> mediaItems}}
+</body>
+
+<template name="kudosItem">
+    <div class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="{{users.user_to.photo}}&s=80" alt="{{users.user_to.fullName}}">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <p>
+                    <a href="#"><img class="image" src="{{users.user_from.photo}}&s=20" alt="{{users.user_from.fullName}}"> {{users.user_from.fullName}}</a>
+                    {{formatDate date}}
+                </p>
+            </h4>
+            <p>{{text}}</p>
+            <p></p>
+        </div>
+            <div class="pull-right">
+                <a href="#comments">
+                    comments
+                    {{#if commentsIsClicked}}
+                        <span class="badge"></span>
+                    {{else}}
+                        <span class="badge">{{comments.length}}</span>
+                    {{/if}}
+                </a>
+            </div>
+    </div>
+        {{#if commentsIsClicked}}
+            {{> comments}}
+        {{/if}}
+</template>
+
+<template name="mediaItems">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Latest kudos</h1>
+            {{#each media_obj}}
+                {{> Template.dynamic template="kudosItem"}}
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="comment">
+    <a href="#" class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <p>
+                <a href="#">
+                    <img class="image" src="{{comment_author.photo}}&s=20">
+                    {{comment_author.fullName}}
+                </a>
+                {{formatDate date}}
+            </p>
+        </h4>
+        <p class="list-group-item-text">{{text}}</p>
+    </a>
+</template>
+
+<template name="comments">
+    <div class="list-group" ower>
+        {{#each comment}}
+            {{> Template.dynamic template="comment"}}
+        {{/each}}
+    </div>
+</template>
+
+
