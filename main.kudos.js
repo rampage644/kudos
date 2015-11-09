@@ -16,12 +16,13 @@ if (Meteor.isClient) {
             var user_to = users.findOne({"_id":this.to});
             return {"user_from":user_from, "user_to":user_to};
         },
+        showComments:function(){
+            return Session.get('showComments');
+        }
     });
-    Template.kudos.events({
+    Template.kudosItem.events({
         'click #comments':function(){
-            console.log(Session.get('showComments'));
             Session.set('showComments',!Session.get('showComments'));
-            console.log(Session.get('showComments'));
         }
     });
 
