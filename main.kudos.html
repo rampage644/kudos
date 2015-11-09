@@ -20,11 +20,20 @@
             <p>{{text}}</p>
             <p></p>
         </div>
-        <div class="pull-right">
-            <a href="#">comments <span class="badge">{{comments.length}}</span></a>
-        </div>
-        {{> comments}}
+            <div class="pull-right">
+                <a href="#comments">
+                    comments
+                    {{#if commentsIsClicked}}
+                        <span class="badge"></span>
+                    {{else}}
+                        <span class="badge">{{comments.length}}</span>
+                    {{/if}}
+                </a>
+            </div>
     </div>
+        {{#if commentsIsClicked}}
+            {{> comments}}
+        {{/if}}
 </template>
 
 <template name="mediaItems">
