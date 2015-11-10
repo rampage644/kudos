@@ -33,6 +33,11 @@
     </div>
         {{#if showComments}}
             {{> comments}}
+            <div class="form-group">
+                <label for="commentText">Comment:</label>
+                <textarea class="form-control" rows="5" id="commentText"></textarea>
+                <button type="button" class="btn btn-primary active" style="float:right;" id="addCommentButton">Add comment</button>
+            </div>
         {{/if}}
 </template>
 
