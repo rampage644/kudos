@@ -36,7 +36,9 @@ if (Meteor.isClient) {
         },
         "click #addCommentButton":function(event){
             var commentText = $('#commentText').val();
-            kudos.update({_id:this._id}, {$push:{comments :{author:currentUser, date:Date(), text:commentText}}});
+            if (commentText.length != 0)
+                kudos.update({_id:this._id}, {$push:{comments :{author:currentUser, date:Date(), text:commentText}}});
+            $('#commentText').val(null);
         }
     });
 
