@@ -1,9 +1,4 @@
-/*
-function pad(num, size) {
-    var s = "0" + num;
-    return ("0"+num).substr("0"+num.length-2);
-}
-*/
+
 if (Meteor.isClient) {
     Session.set('showComments',false);
     Template.registerHelper('formatDate', function(date) {
