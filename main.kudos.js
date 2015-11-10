@@ -36,11 +36,7 @@ if (Meteor.isClient) {
         },
         "click #addCommentButton":function(event){
             var commentText = $('#commentText').val();
-            console.log(commentText);
-            console.log (this._id);
-            console.log(Date());
-            console.log(currentUser);
-            //kudos.update({_id:this._id}, {$push:{comments :{author:currentUser, date:Date(), text:commentText}}});
+            kudos.update({_id:this._id}, {$push:{comments :{author:currentUser, date:Date(), text:commentText}}});
         }
     });
 
