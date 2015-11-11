@@ -1,8 +1,8 @@
-<!---->
+<!--
 <body>
 {{> mediaItems}}
 </body>
-
+-->
 <template name="kudosItem">
     <div class="media">
         <div class="media-left">
@@ -44,7 +44,7 @@
 <template name="mediaItems">
     <div class="jumbotron">
         <div class="container">
-            <h1>Latest kudos</h1>
+            <h2>Latest kudos</h2>
             {{#each media_obj}}
                 {{> Template.dynamic template="kudosItem"}}
             {{/each}}

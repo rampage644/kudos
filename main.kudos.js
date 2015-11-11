@@ -9,7 +9,13 @@ if (Meteor.isClient) {
 
     Template.mediaItems.helpers({
         "media_obj":function(){
-        return kudos.find();
+        var personId = Session.get('selectedPerson')
+        var lim = 5;
+        if (null != personId){
+            return kudos.find({to:personId}, {limit:lim});
+        }
+        else
+            return kudos.find({limit:lim});
         }
     });
 
