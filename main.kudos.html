@@ -44,7 +44,14 @@
 <template name="mediaItems">
     <div class="jumbotron">
         <div class="container">
-            <h2>Latest kudos</h2>
+            <h2>{{kudosTitle}}</h2>
+            {{#if showEditKudos}}
+                <div class="form-group">
+                    <label for="commentText">Kudos text:</label>
+                    <textarea class="form-control" rows="5" id="kudosText"></textarea>
+                    <button type="button" class="btn btn-primary active" style="float:right;" id="addKudos">Add kudos</button>
+                </div>
+            {{/if}}
             {{#each media_obj}}
                 {{> Template.dynamic template="kudosItem"}}
             {{/each}}

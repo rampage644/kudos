@@ -1,3 +1,12 @@
+function getKudosList(personId){
+    var lim = 5; //limit kudos list
+    if (personId == null){
+        return kudos.find({limit:lim});
+    }
+    else {
+        return kudos.find({to:personId}, {limit:lim});
+    }
+}
 
 if (Meteor.isClient) {
     Session.set('showComments',false);
@@ -9,13 +18,26 @@ if (Meteor.isClient) {
 
     Template.mediaItems.helpers({
         "media_obj":function(){
-        var personId = Session.get('selectedPerson')
-        var lim = 5;
-        if (null != personId){
-            return kudos.find({to:personId}, {limit:lim});
-        }
-        else
-            return kudos.find({limit:lim});
+            return getKudosList(Session.get('selectedPerson'));
+        },
+        "kudosTitle":function(){
+            var selectedPerson = Session.get('selectedPerson');
+            var kudosCount = getKudosList(selectedPerson._id).count();
+            if (kudosCount == 0 && selectedPerson == null)
+                return "There is no kudos";
+            else if (kudosCount != 0 && selectedPerson == null)
+                return "Latest kudos";
+            else if (kudosCount == 0 && selectedPerson != null)
+            {
+                return "There is no kudos for user " + selectedPerson.fullName + ". You can leave first kudos!";
+            }
+            else if (kudosCount != 0 && selectedPerson != null)
+            {
+                return "Latest kudos for user " + selectedPerson.fullName;
+            }
+        },
+        showEditKudos:function(){
+            return Session.get('selectedPerson');
         }
     });
 
