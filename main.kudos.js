@@ -1,10 +1,11 @@
-function getKudosList(personId){
+function getKudosList(personSelected){
     var lim = 5; //limit kudos list
-    if (personId == null){
-        return kudos.find({limit:lim});
+
+    if (personSelected == null){
+        return kudos.find();
     }
     else {
-        return kudos.find({to:personId}, {limit:lim});
+        return kudos.find({to:personSelected._id});
     }
 }
 
@@ -22,22 +23,42 @@ if (Meteor.isClient) {
         },
         "kudosTitle":function(){
             var selectedPerson = Session.get('selectedPerson');
-            var kudosCount = getKudosList(selectedPerson._id).count();
-            if (kudosCount == 0 && selectedPerson == null)
-                return "There is no kudos";
-            else if (kudosCount != 0 && selectedPerson == null)
-                return "Latest kudos";
-            else if (kudosCount == 0 && selectedPerson != null)
-            {
-                return "There is no kudos for user " + selectedPerson.fullName + ". You can leave first kudos!";
+            var kudoslist = getKudosList(selectedPerson);
+            if (selectedPerson == null){
+                if (kudoslist.count() == 0)
+                    return "There is no kudos";
+                else
+                    return "Latest kudos";
             }
-            else if (kudosCount != 0 && selectedPerson != null)
-            {
-                return "Latest kudos for user " + selectedPerson.fullName;
+            else{
+                if (kudoslist.count() == 0)
+                    return "There is no kudos for user " + selectedPerson.fullName + ". You can leave the first kudos!";
+                else
+                    return "Latest kudos for user " + selectedPerson.fullName;
             }
         },
         showEditKudos:function(){
             return Session.get('selectedPerson');
+        }
+    });
+
+    Template.mediaItems.events({
+        "submit": function(event) {
+            event.preventDefault();
+            var text = event.target.kudosText;
+        },
+        "click #addKudosButton":function(event){
+            var kudosText = $('#kudosText').val();
+            if (kudosText.length != 0)
+                var user_to = Session.get('selectedPerson');
+                kudos.insert({
+                    from:currentUser,
+                    to:user_to._id,
+                    date:Date(),
+                    text:kudosText,
+                    comments:[]
+                });
+            $('#kudosText').val(null);
         }
     });
 
@@ -52,11 +73,9 @@ if (Meteor.isClient) {
         }
     });
     Template.kudosItem.events({
-
         "submit": function(event) {
             event.preventDefault();
             var text = event.target.commentText;
-            console.log(text);
         },
 
         'click #comments':function(){
