@@ -43,14 +43,19 @@ if (Meteor.isClient) {
     });
 
     Template.mediaItems.events({
+    /*
         "submit": function(event) {
             event.preventDefault();
             var text = event.target.kudosText;
+            console.log(event);
+            console.log(text);
         },
+    */
         "click #addKudosButton":function(event){
             var kudosText = $('#kudosText').val();
-            if (kudosText.length != 0)
+            if (kudosText.length != 0){
                 var user_to = Session.get('selectedPerson');
+
                 kudos.insert({
                     from:currentUser,
                     to:user_to._id,
@@ -58,6 +63,7 @@ if (Meteor.isClient) {
                     text:kudosText,
                     comments:[]
                 });
+            }
             $('#kudosText').val(null);
         }
     });
@@ -73,6 +79,7 @@ if (Meteor.isClient) {
         }
     });
     Template.kudosItem.events({
+    /*
         "submit": function(event) {
             console.log("submit in kudosItem");
             console.log(event);
@@ -80,8 +87,8 @@ if (Meteor.isClient) {
             event.preventDefault();
             var text = event.target.commentText;
         },
-
-        'click #comments':function(){
+    */
+        'click #comments':function(event){
             Session.set('showComments',!Session.get('showComments'));
         },
         "click #addCommentButton":function(event){
