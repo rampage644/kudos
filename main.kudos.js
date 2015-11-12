@@ -74,6 +74,9 @@ if (Meteor.isClient) {
     });
     Template.kudosItem.events({
         "submit": function(event) {
+            console.log("submit in kudosItem");
+            console.log(event);
+            console.log(text);
             event.preventDefault();
             var text = event.target.commentText;
         },

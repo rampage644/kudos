@@ -4,57 +4,70 @@
 </body>
 -->
 <template name="kudosItem">
-    <div class="media">
-        <div class="media-left">
-            <a href="#">
-                <img class="media-object" src="{{users.user_to.photo}}&s=80" alt="{{users.user_to.fullName}}">
-            </a>
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">
-                <p>
-                    <a href="#"><img class="image" src="{{users.user_from.photo}}&s=20" alt="{{users.user_from.fullName}}"> {{users.user_from.fullName}}</a>
-                    {{formatDate date}}
-                </p>
-            </h4>
-            <p>{{text}}</p>
-            <p></p>
-        </div>
-            <div class="pull-right">
-                <a href="#" id="comments">
-                    comments
-                    {{#if showComments}}
-                        <span class="badge"></span>
-                    {{else}}
-                        <span class="badge">{{comments.length}}</span>
-                    {{/if}}
-                </a>
+    <a href="#" class="list-group-item">
+        <h4 class="list-group-item-heading">
+
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt="" width="80" height=auto>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <p>{{text}}</p>
+                </div>
+                <div>
+                    <h4 class="media-heading" style="margin:0px 80px">
+                        <p>
+                           <a href="#"><img class="image" src="data:image/jpeg;base64,{{ users.user_from.photo }}" alt="" width=auto height=30>
+                               {{users.user_from.fullName}}
+                            </a>
+                            {{formatDate date}}
+                            <div class="pull-right">
+                                <a href="#" id="comments">
+                                    comments
+                                    {{#if showComments}}
+                                        <span class="badge"></span>
+                                    {{else}}
+                                        <span class="badge">{{comments.length}}</span>
+                                    {{/if}}
+                                </a>
+                            </div>
+                        </p>
+                    </h4>
+                </div>
+
+            {{#if showComments}}
+                {{> comments}}
+                <div class="form-group">
+                    <label for="commentText">Comment:</label>
+                    <textarea class="form-control" rows="5" id="commentText"></textarea>
+                    <button type="button" class="btn btn-primary active" style="float:right;" id="addCommentButton">Add comment</button>
+                </div>
+            {{/if}}
+
+
             </div>
-    </div>
-        {{#if showComments}}
-            {{> comments}}
-            <div class="form-group">
-                <label for="commentText">Comment:</label>
-                <textarea class="form-control" rows="5" id="commentText"></textarea>
-                <button type="button" class="btn btn-primary active" style="float:right;" id="addCommentButton">Add comment</button>
-            </div>
-        {{/if}}
+        </h4>
+    </a>
 </template>
 
 <template name="mediaItems">
     <div class="jumbotron">
         <div class="container">
-            <h2>{{kudosTitle}}</h2>
             {{#if showEditKudos}}
                 <div class="form-group">
-                    <label for="kudosText">Kudos text:</label>
+                    <label for="kudosText">Write kudos text:</label>
                     <textarea class="form-control" rows="5" id="kudosText"></textarea>
                     <button type="button" class="btn btn-primary active" style="float:right;" id="addKudosButton">Add kudos</button>
                 </div>
             {{/if}}
-            {{#each media_obj}}
-                {{> Template.dynamic template="kudosItem"}}
-            {{/each}}
+            <h2>{{kudosTitle}}</h2>
+            <div class="list-group" ower>
+                {{#each media_obj}}
+                        {{> Template.dynamic template="kudosItem"}}
+                {{/each}}
+            </div>
         </div>
     </div>
 </template>
@@ -64,7 +77,7 @@
         <h4 class="list-group-item-heading">
             <p>
                 <a href="#">
-                    <img class="image" src="{{comment_author.photo}}&s=20">
+                    <img class="image" src="data:image/jpeg;base64,{{ photo }}">
                     {{comment_author.fullName}}
                 </a>
                 {{formatDate date}}
