@@ -19,7 +19,9 @@ if (Meteor.isClient) {
     Template.registerHelper('formatDate', function(date) {
         var d = new Date(date);
         var m = "0" + (parseInt(d.getMonth()) + 1);
-        return d.getDate() + "-" + m.substr(m.length-2) + "-" + d.getFullYear() + ' ' + d.getHours() + ":" + d.getMinutes() + ":"+ d.getSeconds();
+
+//        return d.getDate() + "-" + m.substr(m.length-2) + "-" + d.getFullYear() + ' ' + d.getHours() + ":" + d.getMinutes() + ":"+ d.getSeconds();
+        return d.getDate() + "-" + m.substr(m.length-2) + "-" + d.getFullYear();
     });
 
     Template.mediaItems.helpers({
