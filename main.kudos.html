@@ -1,4 +1,3 @@
-
 <body>
 {{> mediaItems}}
 </body>
@@ -6,57 +5,52 @@
 <template name="kudosItem">
     <a href="#" class="list-group-item">
         <h4 class="list-group-item-heading">
-
-
-
             <div class="media">
                 <div class="media-left">
-                        <h5 align="center">
-                            <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt="" width="100" height=auto >
-                            <a href="#userLink" id="{{users.user_to._id}}" >
-                                {{users.user_to.fullName}}
-
-                            </a>
-                        </h5>
+                    <h5 align="center">
+                        <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt=""
+                             width="100" height=auto>
+                        <a href="#userLink" id="{{users.user_to._id}}">
+                            {{users.user_to.fullName}}
+                        </a>
+                    </h5>
                 </div>
                 <div class="media-body" id="_id">
                     <p>{{text}}</p>
                 </div>
-                <div>
-<!--
-                    <h5 class="media-heading" style="margin:0px 100px">
--->
+                <div class="media">
                     <h5 class="media-heading" align="right">
-                        <p>
-                           <h5>
-                               <a href="#userLink" id="{{users.user_from._id}}"><img class="image" src="data:image/jpeg;base64,{{ users.user_from.photo }}" alt="" width=auto height=30>
-                                       -
-                                       {{users.user_from.fullName}}
-                                       {{formatDate date}}
-                               </a>
-                           </h5>
-                           <div class="pull-right">
-                                <comment_link>
-                                <a href="#commentLink" id="{{this._id}}">
-                                    comments
-                                    {{#if showComments}}
-                                        <span class="badge"></span>
-                                    {{else}}
-                                        <span class="badge">{{comments.length}}</span>
-                                    {{/if}}
+                        <div class="pull-right">
+                            <h5>
+                                <a href="#userLink" id="{{users.user_from._id}}"><img class="image"
+                                                                                      src="data:image/jpeg;base64,{{ users.user_from.photo }}"
+                                                                                      alt="" width=auto height=30>
+                                    -
+                                    {{users.user_from.fullName}}
+                                    {{formatDate date}}
                                 </a>
-                                </comment_link>
-                           </div>
-                        </p>
+                            </h5>
+                            <a href="#commentLink" id="{{this._id}}">
+                                comments
+                                {{#if showComments}}
+                                <span class="badge"></span>
+                                {{else}}
+                                <span class="badge">{{comments.length}}</span>
+                                {{/if}}
+                            </a>
+                        </div>
                     </h5>
+                    <br>
                 </div>
                 {{#if showComments}}
-                    {{> comments}}
-                    <div class="form-group">
-                        <label for="commentText">Write comment:</label>
-                        <textarea class="form-control" rows="5" id="commentText"></textarea>
-                        <button type="button" class="btn btn-primary active" style="float:right;" id="addCommentButton">Add</button>
-                    </div>
+                {{> comments}}
+                <div class="form-group">
+                    <label for="commentText">Write comment:</label>
+                    <textarea class="form-control" rows="5" id="commentText"></textarea>
+                    <button type="button" class="btn btn-primary active" style="float:right;" id="addCommentButton">
+                        Add
+                    </button>
+                </div>
                 {{/if}}
             </div>
         </h4>
@@ -68,49 +62,52 @@
         <div class="container">
 
             <nav class="navbar navbar-inverse navbar-fixed-top">
-              <div class="container">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="#" id="homePage">RackKudos</a>
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#" id="homePage">RackKudos</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <form class="navbar-form navbar-right">
+                            <div class="form-group">
+                                {{> searchbar}}
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" placeholder="Email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="Password" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-success">Sign in</button>
+                        </form>
+                    </div>
+                    <!--/.navbar-collapse -->
                 </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                  <form class="navbar-form navbar-right">
-
-                    <div class="form-group">
-                      {{> searchbar}}
-                    </div>
-
-                    <div class="form-group">
-                      <input type="text" placeholder="Email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                  </form>
-                </div><!--/.navbar-collapse -->
-              </div>
             </nav>
 
             {{> listkudos}}
+
             {{#if showEditKudos}}
-                <div class="form-group">
-                    <label for="kudosText">Write kudos:</label>
-                    <textarea class="form-control" rows="5" id="kudosText"></textarea>
-                    <button type="button" class="btn btn-primary active" style="float:right;" id="addKudosButton">Add</button>
-                </div>
+            <div class="form-group">
+                <label for="kudosText">Write kudos:</label>
+                <textarea class="form-control" rows="5" id="kudosText"></textarea>
+                <button type="button" class="btn btn-primary active" style="float:right;" id="addKudosButton">Add
+                </button>
+            </div>
             {{/if}}
             <div>
                 <h2>{{kudosTitle}}</h2>
             </div>
             <div class="list-group" ower>
                 {{#each media_obj}}
-                    {{> Template.dynamic template="kudosItem"}}
+                {{> Template.dynamic template="kudosItem"}}
                 {{/each}}
             </div>
         </div>
@@ -135,7 +132,7 @@
 <template name="comments">
     <div class="list-group" ower>
         {{#each comment}}
-            {{> Template.dynamic template="comment"}}
+        {{> Template.dynamic template="comment"}}
         {{/each}}
     </div>
 </template>

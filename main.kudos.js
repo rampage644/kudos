@@ -2,10 +2,10 @@ function getKudosList(personSelected){
     var lim = 5; //limit kudos list
 
     if (personSelected == null){
-        return kudos.find();
+        return kudos.find({}, { limit : 5 }, { orderby : { date : 1 }});
     }
     else {
-        return kudos.find({to:personSelected._id});
+        return kudos.find({to:personSelected._id}, { limit : 5 }, { orderby : { date : 1 }});
     }
 }
 
