@@ -11,12 +11,13 @@
 
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt="" width="100" height=auto>
-                    </a>
-                    <h6 align="center">
-                        {{users.user_to.fullName}}
-                    </h6>
+                        <h5 align="center">
+                            <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt="" width="100" height=auto >
+                            <a href="#userLink" id="{{users.user_to._id}}" >
+                                {{users.user_to.fullName}}
+
+                            </a>
+                        </h5>
                 </div>
                 <div class="media-body" id="_id">
                     <p>{{text}}</p>
