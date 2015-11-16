@@ -11,6 +11,11 @@ function getKudosList(personSelected){
 
 if (Meteor.isClient) {
     Session.set('showComments',false);
+    Session.set('buttonId','');
+
+    Template.registerHelper( 'equals', function (a,b){
+        return a===b;
+    } );
     Template.registerHelper('formatDate', function(date) {
         var d = new Date(date);
         var m = "0" + (parseInt(d.getMonth()) + 1);
@@ -32,9 +37,9 @@ if (Meteor.isClient) {
             }
             else{
                 if (kudoslist.count() == 0)
-                    return "There is no kudos for user " + selectedPerson.fullName + ". You can leave the first kudos!";
+                    return "There is no kudos for " + selectedPerson.fullName + ". You can leave the first kudos!";
                 else
-                    return "Latest kudos for user " + selectedPerson.fullName;
+                    return "Latest kudos for " + selectedPerson.fullName;
             }
         },
         showEditKudos:function(){
@@ -43,19 +48,13 @@ if (Meteor.isClient) {
     });
 
     Template.mediaItems.events({
-    /*
         "submit": function(event) {
             event.preventDefault();
-            var text = event.target.kudosText;
-            console.log(event);
-            console.log(text);
         },
-    */
         "click #addKudosButton":function(event){
             var kudosText = $('#kudosText').val();
             if (kudosText.length != 0){
                 var user_to = Session.get('selectedPerson');
-
                 kudos.insert({
                     from:currentUser,
                     to:user_to._id,
@@ -76,21 +75,37 @@ if (Meteor.isClient) {
         },
         showComments:function(){
             return Session.get('showComments');
+        },
+        "commentsLinkId":function(){
+            return this._id;
+        },
+        'showComments':function(){
+            if (Session.get('buttonId') == this._id)
+                return true;
         }
     });
     Template.kudosItem.events({
-    /*
         "submit": function(event) {
-            console.log("submit in kudosItem");
-            console.log(event);
-            console.log(text);
             event.preventDefault();
-            var text = event.target.commentText;
         },
-    */
-        'click #comments':function(event){
-            Session.set('showComments',!Session.get('showComments'));
+        'click':function(event){
+            var objHash = event.target.hash;
+            if (objHash != null){
+
+                if (objHash.indexOf('commentLink') != -1){
+
+                    if (Session.get('buttonId') == event.currentTarget.id)
+                        Session.set('buttonId', null);
+                    else
+                        Session.set('buttonId', event.currentTarget.id);
+                }
+                if (objHash.indexOf('userLink') != -1)
+                {
+                    Session.set('selectedPerson', users.findOne({_id:event.currentTarget.id}));
+                }
+            }
         },
+
         "click #addCommentButton":function(event){
             var commentText = $('#commentText').val();
             if (commentText.length != 0)
