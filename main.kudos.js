@@ -64,7 +64,11 @@ if (Meteor.isClient) {
                 });
             }
             $('#kudosText').val(null);
+        },
+        "click #homePage":function(event){
+            Session.set('selectedPerson', null);
         }
+
     });
 
     Template.kudosItem.helpers({
