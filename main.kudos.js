@@ -12,6 +12,7 @@ function getKudosList(personSelected){
 if (Meteor.isClient) {
     Session.set('showComments',false);
     Session.set('buttonId','');
+    //Session.set('currentUser', users.findOne({_id:currentUserID }));
 
     Template.registerHelper( 'equals', function (a,b){
         return a===b;
@@ -46,8 +47,14 @@ if (Meteor.isClient) {
         },
         showEditKudos:function(){
             return Session.get('selectedPerson');
+        },
+        "currentUser":function(){
+            if (currentUserID)
+                return users.findOne({_id:currentUserID});
+            else
+                return null;
         }
-    });
+        });
 
     Template.mediaItems.events({
         "submit": function(event) {

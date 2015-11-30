@@ -79,13 +79,30 @@
                                 {{> searchbar}}
                             </div>
 
-                            <div class="form-group">
-                                <input type="text" placeholder="Email" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" placeholder="Password" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-success">Sign in</button>
+                            {{#if currentUser}}
+
+                            {{else}}
+                                <div class="form-group">
+                                    <input type="text" placeholder="SSO" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                        <input type="password" placeholder="Password" class="form-control">
+                                </div>
+                            {{/if}}
+
+                            {{#if currentUser}}
+                            <!--
+                                <a class="navbar-brand" href="#" id="homePage">
+                                    <div>
+                                        <img class="image" src="data:image/jpeg;base64,{{ currentUser.photo }}" width=auto height=30>
+                                        {{currentUser.fullName}}
+                                    </div>
+                                </a>
+                            -->
+                                <button type="submit" class="btn btn-success" id="Sign_out">Sign out</button>
+                            {{else}}
+                                <button type="submit" class="btn btn-success" id="Sign_in">Sign in</button>
+                            {{/if}}
                         </form>
                     </div>
                     <!--/.navbar-collapse -->
@@ -107,7 +124,7 @@
             </div>
             <div class="list-group" ower>
                 {{#each media_obj}}
-                {{> Template.dynamic template="kudosItem"}}
+                    {{> Template.dynamic template="kudosItem"}}
                 {{/each}}
             </div>
         </div>
