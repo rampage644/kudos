@@ -1,5 +1,4 @@
 if (Meteor.isClient) {
-
     Template.searchbar.events({
         "submit": function(event) {
             event.preventDefault();
@@ -19,9 +18,9 @@ if (Meteor.isClient) {
           rules: [
             {
               // token: '',
-              collection: 'users',
+              collection: 'rackUsers',
               field: 'fullName',
-              matchAll: false,
+              matchAll: true,
               template: Template.userPill
             }
           ]
