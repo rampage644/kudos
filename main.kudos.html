@@ -10,7 +10,7 @@
                     <h5 align="center">
                         <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt=""
                              width="100" height=auto>
-                        <a href="#userLink" id="{{users.user_to._id}}">
+                        <a href="#userLink" id="{{users.user_to.email}}">
                             {{users.user_to.fullName}}
                         </a>
                     </h5>
@@ -22,7 +22,7 @@
                     <h5 class="media-heading" align="right">
                         <div class="pull-right">
                             <h5>
-                                <a href="#userLink" id="{{users.user_from._id}}"><img class="image"
+                                <a href="#userLink" id="{{users.user_from.email}}"><img class="image"
                                                                                       src="data:image/jpeg;base64,{{ users.user_from.photo }}"
                                                                                       alt="" width=auto height=30>
                                     -

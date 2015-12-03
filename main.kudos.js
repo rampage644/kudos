@@ -5,7 +5,7 @@ function getKudosList(personSelected){
         return kudos.find({}, { limit : 5 }, { orderby : { date : 1 }});
     }
     else {
-        return kudos.find({to:personSelected._id}, { limit : 5 }, { orderby : { date : 1 }});
+        return kudos.find({to:personSelected.email}, { limit : 5 }, { orderby : { date : 1 }});
     }
 }
 
@@ -53,11 +53,9 @@ if (Meteor.isClient) {
         },
         "rackUsersReady":function(){
             if (rackUsers.find().count() == 0){
-                console.log(rackUsers.find().count());
                 return true;
             }
             else{
-                console.log(rackUsers.find().count());
                 return false;
             }
         }
@@ -72,8 +70,8 @@ if (Meteor.isClient) {
             if (kudosText.length != 0){
                 var user_to = Session.get('selectedPerson');
                 kudos.insert({
-                    from:"asdasa",
-                    to:user_to._id,
+                    from:Meteor.user().services.saml2.email,
+                    to:user_to.email,
                     date:Date(),
                     text:kudosText,
                     comments:[]
@@ -82,6 +80,7 @@ if (Meteor.isClient) {
             $('#kudosText').val(null);
         },
         "click #homePage":function(event){
+            console.log('set selectedPerson to null');
             Session.set('selectedPerson', null);
         }
 
@@ -89,8 +88,8 @@ if (Meteor.isClient) {
 
     Template.kudosItem.helpers({
         "users":function(){
-            var user_from = rackUsers.findOne({"_id":this.from});
-            var user_to = rackUsers.findOne({"_id":this.to});
+            var user_from = rackUsers.findOne({'email':this.from});
+            var user_to = rackUsers.findOne({'email':this.to});
             return {"user_from":user_from, "user_to":user_to};
         },
         showComments:function(){
@@ -121,7 +120,7 @@ if (Meteor.isClient) {
                 }
                 if (objHash.indexOf('userLink') != -1)
                 {
-                    Session.set('selectedPerson', rackUsers.findOne({_id:event.currentTarget.id}));
+                    Session.set('selectedPerson', rackUsers.findOne({email:event.currentTarget.id}));
                 }
             }
         },
@@ -129,7 +128,7 @@ if (Meteor.isClient) {
         "click #addCommentButton":function(event){
             var commentText = $('#commentText').val();
             if (commentText.length != 0)
-                kudos.update({_id:this._id}, {$push:{comments :{author:currentUser, date:Date(), text:commentText}}});
+                kudos.update({_id:this._id}, {$push:{comments :{author:Meteor.user().services.saml2.email, date:Date(), text:commentText}}});
             $('#commentText').val(null);
         }
     });
@@ -142,7 +141,7 @@ if (Meteor.isClient) {
 
     Template.comment.helpers({
         "comment_author":function(){
-            return rackUsers.findOne({"_id":this.author});
+            return rackUsers.findOne({email:this.author});
         },
     });
 }
