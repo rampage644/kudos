@@ -10,9 +10,9 @@ function getKudosList(personSelected){
 }
 
 if (Meteor.isClient) {
+
     Session.set('showComments',false);
     Session.set('buttonId','');
-    //Session.set('currentUser', users.findOne({_id:currentUserID }));
 
     Template.registerHelper( 'equals', function (a,b){
         return a===b;
@@ -49,10 +49,17 @@ if (Meteor.isClient) {
             return Session.get('selectedPerson');
         },
         "currentUser":function(){
-            if (currentUserID)
-                return users.findOne({_id:currentUserID});
-            else
-                return null;
+            return Meteor.user();
+        },
+        "rackUsersReady":function(){
+            if (rackUsers.find().count() == 0){
+                console.log(rackUsers.find().count());
+                return true;
+            }
+            else{
+                console.log(rackUsers.find().count());
+                return false;
+            }
         }
         });
 
@@ -65,7 +72,7 @@ if (Meteor.isClient) {
             if (kudosText.length != 0){
                 var user_to = Session.get('selectedPerson');
                 kudos.insert({
-                    from:currentUser,
+                    from:"asdasa",
                     to:user_to._id,
                     date:Date(),
                     text:kudosText,
@@ -82,8 +89,8 @@ if (Meteor.isClient) {
 
     Template.kudosItem.helpers({
         "users":function(){
-            var user_from = users.findOne({"_id":this.from});
-            var user_to = users.findOne({"_id":this.to});
+            var user_from = rackUsers.findOne({"_id":this.from});
+            var user_to = rackUsers.findOne({"_id":this.to});
             return {"user_from":user_from, "user_to":user_to};
         },
         showComments:function(){
@@ -114,7 +121,7 @@ if (Meteor.isClient) {
                 }
                 if (objHash.indexOf('userLink') != -1)
                 {
-                    Session.set('selectedPerson', users.findOne({_id:event.currentTarget.id}));
+                    Session.set('selectedPerson', rackUsers.findOne({_id:event.currentTarget.id}));
                 }
             }
         },
@@ -135,12 +142,11 @@ if (Meteor.isClient) {
 
     Template.comment.helpers({
         "comment_author":function(){
-            return users.findOne({"_id":this.author});
+            return rackUsers.findOne({"_id":this.author});
         },
     });
 }
 
 if (Meteor.isServer) {
-    // server code goes here
 
 }

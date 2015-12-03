@@ -60,7 +60,6 @@
 <template name="mediaItems">
     <div class="jumbotron">
         <div class="container">
-
             <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
@@ -75,42 +74,31 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <form class="navbar-form navbar-right">
+                            {{#if currentUser}}
                             <div class="form-group">
                                 {{> searchbar}}
                             </div>
-
-                            {{#if currentUser}}
-
-                            {{else}}
-                                <div class="form-group">
-                                    <input type="text" placeholder="SSO" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                        <input type="password" placeholder="Password" class="form-control">
-                                </div>
                             {{/if}}
-
-                            {{#if currentUser}}
-                            <!--
-                                <a class="navbar-brand" href="#" id="homePage">
-                                    <div>
-                                        <img class="image" src="data:image/jpeg;base64,{{ currentUser.photo }}" width=auto height=30>
-                                        {{currentUser.fullName}}
-                                    </div>
-                                </a>
-                            -->
-                                <button type="submit" class="btn btn-success" id="Sign_out">Sign out</button>
-                            {{else}}
-                                <button type="submit" class="btn btn-success" id="Sign_in">Sign in</button>
-                            {{/if}}
+                            <div class="form-group">
+                                {{> loginButtons}} <!-- here -->
+                            </div>
                         </form>
                     </div>
-                    <!--/.navbar-collapse -->
                 </div>
             </nav>
 
-            {{> listkudos}}
+            {{#if rackUsersReady}}
+            <div align="center">
+                <h2 align="center">
+                    Please wait
+                </h2>
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i>
+            </div>
+            {{/if}}
 
+            {{#if currentUser}}
+
+            {{> listkudos}}
             {{#if showEditKudos}}
             <div class="form-group">
                 <label for="kudosText">Write kudos:</label>
@@ -127,6 +115,7 @@
                     {{> Template.dynamic template="kudosItem"}}
                 {{/each}}
             </div>
+            {{/if}}
         </div>
     </div>
 </template>
@@ -153,5 +142,6 @@
         {{/each}}
     </div>
 </template>
+
 
 
