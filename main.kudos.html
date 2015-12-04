@@ -88,33 +88,46 @@
             </nav>
 
             {{#if rackUsersReady}}
-            <div align="center">
-                <h2 align="center">
-                    Please wait
-                </h2>
-                <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i>
-            </div>
+                <div align="center">
+                    <h2 align="center">
+                        Please wait
+                    </h2>
+                    <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i>
+                </div>
             {{/if}}
 
             {{#if currentUser}}
+                {{> listkudos}}
+                {{#if showEditKudos}}
+                    <div class="form-group">
+                        <label for="kudosText">Write kudos:</label>
+                        <textarea class="form-control" rows="5" id="kudosText"></textarea>
+                        <button type="button" class="btn btn-primary active" style="float:right;" id="addKudosButton">Add
+                        </button>
+                    </div>
+                {{/if}}
+                {{#unless rackUsersReady}}
+                    <div>
+                        <h2>{{kudosTitle}}</h2>
+                    </div>
+                {{/unless}}
+                <div class="list-group" ower>
+                    {{#unless rackUsersReady}}
+                        {{#each media_obj}}
+                            {{> Template.dynamic template="kudosItem"}}
+                        {{/each}}
+                    {{/unless}}
+                </div>
 
-            {{> listkudos}}
-            {{#if showEditKudos}}
-            <div class="form-group">
-                <label for="kudosText">Write kudos:</label>
-                <textarea class="form-control" rows="5" id="kudosText"></textarea>
-                <button type="button" class="btn btn-primary active" style="float:right;" id="addKudosButton">Add
-                </button>
-            </div>
-            {{/if}}
-            <div>
-                <h2>{{kudosTitle}}</h2>
-            </div>
-            <div class="list-group" ower>
-                {{#each media_obj}}
-                    {{> Template.dynamic template="kudosItem"}}
-                {{/each}}
-            </div>
+                {{#if moreKudos}}
+                    {{#unless rackUsersReady}}
+                        <div id="showMoreResults" style="margin-left: 25px;">
+                            <button type="button" id="moreKudosButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+                                Show {{kudosIncrement}} more kudos
+                            </button>
+                        </div>
+                    {{/unless}}
+                {{/if}}
             {{/if}}
         </div>
     </div>
@@ -138,7 +151,7 @@
 <template name="comments">
     <div class="list-group" ower>
         {{#each comment}}
-        {{> Template.dynamic template="comment"}}
+            {{> Template.dynamic template="comment"}}
         {{/each}}
     </div>
 </template>

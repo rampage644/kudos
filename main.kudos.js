@@ -1,15 +1,49 @@
-function getKudosList(personSelected){
-    var lim = 5; //limit kudos list
+var kudosIncrement = 5;
 
+function getKudosList(personSelected){
+    var kudosLimit = Session.get("itemsLimit");
     if (personSelected == null){
-        return kudos.find({}, { limit : 5 }, { orderby : { date : 1 }});
+        return kudos.find({}, { limit : kudosLimit }, { orderby : { date : -1 }});
     }
     else {
-        return kudos.find({to:personSelected.email}, { limit : 5 }, { orderby : { date : 1 }});
+        return kudos.find({to:personSelected.email}, { limit : kudosLimit }, { orderby : { date : -1 }});
+    }
+};
+
+function getKudosCount(personSelected){
+    if (personSelected == null){
+        return kudos.find({}, { orderby : { date : 1 }}).count();
+    }
+    else {
+        return kudos.find({to:personSelected.email}, { orderby : { date : 1 }}).count();
+    }
+}
+
+function showMoreVisible() {
+    var kudosCount = getKudosCount(Session.get('selectedPerson'));
+
+    if (kudosCount>Session.get("itemsLimit")){
+        Session.set("itemsLimit", Session.get("itemsLimit") + kudosIncrement);
     }
 }
 
 if (Meteor.isClient) {
+
+    Session.setDefault('itemsLimit', kudosIncrement);
+
+/*
+    Deps.autorun(function() {
+        console.log('start kudos');
+        Meteor.subscribe('kudos', Session.get('itemsLimit'));
+        console.log('end kudos');
+    });
+
+    Deps.autorun(function() {
+        console.log('start rackUsers');
+        Meteor.subscribe('rackUsers');
+        console.log('end rackUsers');
+    });
+*/
 
     Session.set('showComments',false);
     Session.set('buttonId','');
@@ -52,12 +86,19 @@ if (Meteor.isClient) {
             return Meteor.user();
         },
         "rackUsersReady":function(){
+            console.log(rackUsers.find().count());
             if (rackUsers.find().count() == 0){
                 return true;
             }
             else{
                 return false;
             }
+        },
+        "moreKudos":function(){
+            return getKudosCount(Session.get('selectedPerson')) > Session.get("itemsLimit");
+        },
+        "kudosIncrement":function(){
+            return kudosIncrement;
         }
         });
 
@@ -80,10 +121,14 @@ if (Meteor.isClient) {
             $('#kudosText').val(null);
         },
         "click #homePage":function(event){
-            console.log('set selectedPerson to null');
             Session.set('selectedPerson', null);
-        }
+            Session.set('itemsLimit', kudosIncrement);
+            $('#users').val(null);
 
+        },
+        "click #moreKudosButton":function (event){
+            showMoreVisible();
+        }
     });
 
     Template.kudosItem.helpers({
@@ -124,7 +169,6 @@ if (Meteor.isClient) {
                 }
             }
         },
-
         "click #addCommentButton":function(event){
             var commentText = $('#commentText').val();
             if (commentText.length != 0)
@@ -147,5 +191,12 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-
+/*
+    Meteor.publish('kudos', function(limit) {
+        return kudos.find({}, { limit: limit });
+    });
+    Meteor.publish('rackUsers', function(){
+        return rackUsers.find({});
+    });
+*/
 }
