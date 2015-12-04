@@ -1,48 +1,134 @@
-<!---->
 <body>
 {{> mediaItems}}
 </body>
 
 <template name="kudosItem">
-    <div class="media">
-        <div class="media-left">
-            <a href="#">
-                <img class="media-object" src="{{users.user_to.photo}}&s=80" alt="{{users.user_to.fullName}}">
-            </a>
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">
-                <p>
-                    <a href="#"><img class="image" src="{{users.user_from.photo}}&s=20" alt="{{users.user_from.fullName}}"> {{users.user_from.fullName}}</a>
-                    {{formatDate date}}
-                </p>
-            </h4>
-            <p>{{text}}</p>
-            <p></p>
-        </div>
-            <div class="pull-right">
-                <a href="#comments">
-                    comments
-                    {{#if commentsIsClicked}}
-                        <span class="badge"></span>
-                    {{else}}
-                        <span class="badge">{{comments.length}}</span>
-                    {{/if}}
-                </a>
+    <a href="#" class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <div class="media">
+                <div class="media-left">
+                    <h5 align="center">
+                        <img class="media-object" src="data:image/jpeg;base64,{{ users.user_to.photo }}" alt=""
+                             width="100" height=auto>
+                        <a href="#userLink" id="{{users.user_to.email}}">
+                            {{users.user_to.fullName}}
+                        </a>
+                    </h5>
+                </div>
+                <div class="media-body" id="_id">
+                    <p>{{text}}</p>
+                </div>
+                <div class="media">
+                    <h5 class="media-heading" align="right">
+                        <div class="pull-right">
+                            <h5>
+                                <a href="#userLink" id="{{users.user_from.email}}"><img class="image"
+                                                                                      src="data:image/jpeg;base64,{{ users.user_from.photo }}"
+                                                                                      alt="" width=auto height=30>
+                                    -
+                                    {{users.user_from.fullName}}
+                                    {{formatDate date}}
+                                </a>
+                            </h5>
+                            <a href="#commentLink" id="{{this._id}}">
+                                comments
+                                {{#if showComments}}
+                                <span class="badge"></span>
+                                {{else}}
+                                <span class="badge">{{comments.length}}</span>
+                                {{/if}}
+                            </a>
+                        </div>
+                    </h5>
+                    <br>
+                </div>
+                {{#if showComments}}
+                {{> comments}}
+                <div class="form-group">
+                    <label for="commentText">Write comment:</label>
+                    <textarea class="form-control" rows="5" id="commentText"></textarea>
+                    <button type="button" class="btn btn-primary active" style="float:right;" id="addCommentButton">
+                        Add
+                    </button>
+                </div>
+                {{/if}}
             </div>
-    </div>
-        {{#if commentsIsClicked}}
-            {{> comments}}
-        {{/if}}
+        </h4>
+    </a>
 </template>
 
 <template name="mediaItems">
     <div class="jumbotron">
         <div class="container">
-            <h1>Latest kudos</h1>
-            {{#each media_obj}}
-                {{> Template.dynamic template="kudosItem"}}
-            {{/each}}
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#" id="homePage">RackKudos</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <form class="navbar-form navbar-right">
+                            {{#if currentUser}}
+                            <div class="form-group">
+                                {{> searchbar}}
+                            </div>
+                            {{/if}}
+                            <div class="form-group">
+                                {{> loginButtons}} <!-- here -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+
+            {{#if rackUsersReady}}
+                <div align="center">
+                    <h2 align="center">
+                        Please wait
+                    </h2>
+                    <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i>
+                </div>
+            {{/if}}
+
+            {{#if currentUser}}
+                {{> listkudos}}
+                {{#if showEditKudos}}
+                    <div class="form-group">
+                        <label for="kudosText">Write kudos:</label>
+                        <textarea class="form-control" rows="5" id="kudosText"></textarea>
+                        <button type="button" class="btn btn-primary active" style="float:right;" id="addKudosButton">Add
+                        </button>
+                    </div>
+                {{/if}}
+                {{#unless rackUsersReady}}
+                    <div>
+                        <h2>{{kudosTitle}}</h2>
+                    </div>
+                {{/unless}}
+                <div class="list-group" ower>
+                    {{#unless rackUsersReady}}
+                        {{#each media_obj}}
+                            {{> Template.dynamic template="kudosItem"}}
+                        {{/each}}
+                    {{/unless}}
+                </div>
+
+                {{#if moreKudos}}
+                    {{#unless rackUsersReady}}
+                        <div id="showMoreResults" style="margin-left: 25px;">
+                            <button type="button" id="moreKudosButton" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+                                Show {{kudosIncrement}} more kudos
+                            </button>
+                        </div>
+                    {{/unless}}
+                {{/if}}
+            {{/if}}
         </div>
     </div>
 </template>
@@ -52,7 +138,7 @@
         <h4 class="list-group-item-heading">
             <p>
                 <a href="#">
-                    <img class="image" src="{{comment_author.photo}}&s=20">
+                    <img class="image" src="data:image/jpeg;base64,{{ comment_author.photo }}" width=auto height=30>
                     {{comment_author.fullName}}
                 </a>
                 {{formatDate date}}
@@ -69,5 +155,6 @@
         {{/each}}
     </div>
 </template>
+
 
 

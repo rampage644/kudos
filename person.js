@@ -4,36 +4,37 @@ if (Meteor.isClient) {
             return Session.get('selectedPerson');
         }
     });
-
+/*
     Template.kudos.helpers({
         fullName: function() {
             var data = users.findOne({_id:this.to});
-            return data.firstName + " " + data.lastName;
+            return "text";//data.firstName + " " + data.lastName;
         }
     })
+*/
 }
 
 function syncUsers() {
-    if (users.find().count() !== 0)
+    if (rackUsers.find().count() !== 0)
         return;
 
     var ldap = Meteor.npmRequire('ldapjs');
     var client = ldap.createClient({
-        url:'ldaps://auth.edir.rackspace.com',
+        url:Meteor.settings.url,
     });
 
-    var user = 'cn=kudos_app,ou=Users,o=rackspace';
-    var passwd = '';
+    var user = Meteor.settings.user;
+    var passwd = Meteor.settings.passwd;
 
     var bindSync = Async.wrap(client, 'bind');
     bindSync(user, passwd);
 
 
-    var base = 'o=rackspace'
+    var base = Meteor.settings.user.base;
     var opts = {
-        filter:'(&(photo=*)(cn=*))', 
-        scope:'sub', 
-        attributes: ['dn', 'cn', 'title', 'sn', 'givenName', 'Division', 'manager', 'displayName', 'photo'],
+        filter:Meteor.settings.user.filter,
+        scope:Meteor.settings.user.sub,
+        attributes: ['dn', 'cn', 'title', 'sn', 'givenName', 'Division', 'manager', 'displayName', 'photo', 'uid', 'mail'],
         timeLimit: 60
     };
 
@@ -42,7 +43,9 @@ function syncUsers() {
     var results = searchSync(base, opts);
 
     results.on('searchEntry', Meteor.bindEnvironment(function(entry) {
-        users.insert({
+        rackUsers.insert({
+            'uid':entry.object.uid,
+            'email':entry.object.mail.toLowerCase(),
             'firstName': entry.object.givenName,
             'lastName': entry.object.sn,
             'fullName': entry.object.displayName,

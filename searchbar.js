@@ -1,9 +1,7 @@
 if (Meteor.isClient) {
-
     Template.searchbar.events({
         "submit": function(event) {
             event.preventDefault();
-            console.log(event);
         },
         "autocompleteselect input": function(event, template, doc) {
             console.log("selected ", doc);
@@ -19,9 +17,9 @@ if (Meteor.isClient) {
           rules: [
             {
               // token: '',
-              collection: 'users',
+              collection: 'rackUsers',
               field: 'fullName',
-              matchAll: false,
+              matchAll: true,
               template: Template.userPill
             }
           ]

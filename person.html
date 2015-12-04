@@ -1,7 +1,9 @@
+<!--
 <body>
     {{> listkudos }}
+    {{> mediaItems}}
 </body>
-
+-->
 <template name="listkudos">
     {{#if selectedPerson }}
     <div class="panel panel-default">
@@ -16,17 +18,20 @@
     <div class="media">
         <div class="media-left">
             <a href="#">
-                <img class="media-object" src="data:image/jpeg;base64,{{ photo }}" alt="">
+                <img class="media-object" src="data:image/jpeg;base64,{{ photo }}" alt="" width="80" height=auto>
             </a>
         </div>
         <div class="media-body">
-            <h4 class="media-heading">{{ firstName }} {{ lastName }}</h4>
+            <h2 class="media-heading">{{ firstName }} {{ lastName }}</h2>
             <p> {{ title }} / {{ department }} </p>
         </div>
     </div>
+<!--
     {{> kudos to=_id }}
+-->
 </template>
-
+<!--
 <template name="kudos">
     <p>Showing a list of kudos sent to person id {{to}} - {{ fullName }}</p>
 </template>
+-->
