@@ -2,7 +2,6 @@ if (Meteor.isClient) {
     Template.searchbar.events({
         "submit": function(event) {
             event.preventDefault();
-            console.log(event);
         },
         "autocompleteselect input": function(event, template, doc) {
             console.log("selected ", doc);
