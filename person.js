@@ -20,20 +20,20 @@ function syncUsers() {
 
     var ldap = Meteor.npmRequire('ldapjs');
     var client = ldap.createClient({
-        url:'ldaps://auth.edir.rackspace.com',
+        url:Meteor.settings.url,
     });
 
-    var user = 'cn=kudos_app,ou=Users,o=rackspace';
-    var passwd = '';
+    var user = Meteor.settings.user;
+    var passwd = Meteor.settings.passwd;
 
     var bindSync = Async.wrap(client, 'bind');
     bindSync(user, passwd);
 
 
-    var base = 'o=rackspace'
+    var base = Meteor.settings.user.base;
     var opts = {
-        filter:'(&(photo=*)(cn=*))', 
-        scope:'sub', 
+        filter:Meteor.settings.user.filter,
+        scope:Meteor.settings.user.sub,
         attributes: ['dn', 'cn', 'title', 'sn', 'givenName', 'Division', 'manager', 'displayName', 'photo', 'uid', 'mail'],
         timeLimit: 60
     };
